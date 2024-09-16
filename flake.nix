@@ -8,9 +8,10 @@
   outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+        prefix = "letsql-";
         pkgs = nixpkgs.legacyPackages.${system};
-        utils = import ./nix/utils.nix { inherit pkgs; prefix = "letsql-"; };
-        commands = import ./nix/commands.nix { inherit pkgs utils; prefix = "letsql-"; };
+        utils = import ./nix/utils.nix { inherit pkgs prefix; };
+        commands = import ./nix/commands.nix { inherit pkgs utils prefix; };
       in
       {
         apps = (utils.attrsToApps commands.commands) // {

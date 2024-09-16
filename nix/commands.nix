@@ -47,7 +47,7 @@ let
     nix-shell --command "drvPath=\"$drvPath\"; source "${letsql-debug-drv-setup-script}"; return" "$drvPath"
   '';
 
-	letsql-nix-flake-metadata-refresh = pkgs.writeShellScriptBin "letsql-nix-flake-metadata-refresh" ''
+	letsql-nix-flake-metadata-refresh = pkgs.writeShellScriptBin "${prefix}nix-flake-metadata-refresh" ''
 		${pkgs.nix}/bin/nix flake metadata --refresh github:letsql/nix-utils
 	'';
 
