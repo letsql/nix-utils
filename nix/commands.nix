@@ -1,5 +1,7 @@
-{ pkgs, utils, prefix ? "" }:
+{ pkgs, prefix ? "" }:
 let
+
+	utils = import ./utils.nix { inherit pkgs prefix; };
 
 	letsql-upterm-host = utils.writeShellScriptBinWithArgs {
 		drv = pkgs.upterm;

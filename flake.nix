@@ -11,7 +11,7 @@
         prefix = "letsql-";
         pkgs = nixpkgs.legacyPackages.${system};
         utils = import ./nix/utils.nix { inherit pkgs prefix; };
-        commands = import ./nix/commands.nix { inherit pkgs utils prefix; };
+        commands = import ./nix/commands.nix { inherit pkgs prefix; };
       in
       {
         apps = (utils.attrsToApps commands.commands) // {
