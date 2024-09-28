@@ -20,5 +20,16 @@ rec {
     drvWithArgs = writeShellScriptBinWithArgs { inherit drv name args; };
   in drvToApp { drv = drvWithArgs; };
 
+	mkNixFlakeMetadataRefresh = url: writeShellScriptBinWithArgs {
+    drv = pkgs.nix;
+    args = [ "flake" "metadata" "--refresh" url ];
+    name = "${prefix}nix-flake-metadata-refresh";
+    append-args = false;
+	};
+
+	mkNixFlakeMetadataRefreshApp = url: drvToApp {
+		drv = mkNixFlakeMetadataRefresh url;
+	};
+
   attrsToApps = attrs: builtins.mapAttrs (name: drv: drvToApp { inherit drv; }) attrs;
 }

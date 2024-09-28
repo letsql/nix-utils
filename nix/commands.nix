@@ -49,9 +49,7 @@ let
     nix-shell --command "drvPath=\"$drvPath\"; source "${letsql-debug-drv-setup-script}"; return" "$drvPath"
   '';
 
-	letsql-nix-flake-metadata-refresh = pkgs.writeShellScriptBin "${prefix}nix-flake-metadata-refresh" ''
-		${pkgs.nix}/bin/nix flake metadata --refresh github:letsql/nix-utils
-	'';
+	letsql-nix-flake-metadata-refresh = utils.mkNixFlakeMetadataRefresh "github:letsql/nix-utils";
 
 	commands = {
 		inherit letsql-upterm-host letsql-upterm-session-current;
