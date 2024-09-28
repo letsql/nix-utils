@@ -12,8 +12,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         utils = import ./nix/utils.nix { inherit pkgs prefix; };
         commands = import ./nix/commands.nix { inherit pkgs prefix; };
-      in
-      {
+      in {
         apps = (utils.attrsToApps commands.commands) // {
           default = self.apps.${system}.letsql-debug-drv;
         };
@@ -21,9 +20,7 @@
           inherit (commands) commands-shell;
           default = self.devShells.${system}.commands-shell;
         };
-        lib = {
-          inherit pkgs utils;
-        };
+        lib = { inherit pkgs utils; };
         programs = commands.commands;
       });
 }
