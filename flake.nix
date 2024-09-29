@@ -10,7 +10,8 @@
       let
         prefix = "letsql-";
         pkgs = nixpkgs.legacyPackages.${system};
-        utils = import ./nix/utils.nix { inherit pkgs prefix; };
+        inherit (import ./nix/lib.nix) mkUtils;
+        utils = mkUtils { inherit pkgs prefix; };
         commands = import ./nix/commands.nix { inherit pkgs prefix; };
       in {
         apps = (utils.attrsToApps commands.commands) // {
@@ -20,7 +21,7 @@
           inherit (commands) commands-shell;
           default = self.devShells.${system}.commands-shell;
         };
-        lib = { inherit pkgs utils; };
+        lib = { inherit pkgs utils mkUtils; };
         programs = commands.commands;
       });
 }
