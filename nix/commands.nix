@@ -1,4 +1,4 @@
-{ pkgs, prefix ? "" }:
+{ pkgs, overrides, prefix ? "" }:
 let
 
   utils = (import ./lib.nix).mkUtils { inherit pkgs prefix; };
@@ -49,11 +49,33 @@ let
   letsql-nix-flake-metadata-refresh =
     utils.mkNixFlakeMetadataRefresh "github:letsql/nix-utils";
 
+  letsql-nbconvert = let
+    dontCheckPython = drv: drv.overridePythonAttrs (old: { doCheck = false; });
+    python = pkgs.python310.override {
+      packageOverrides = final: prev: {
+        jupyter-contrib-nbextensions = prev.jupyter-contrib-nbextensions.overrideAttrs overrides."jupyter_contrib_nbextensions-0.7.0.patch";
+        aiohttp = dontCheckPython prev.aiohttp;
+        furl = dontCheckPython prev.furl;
+        jupyter-server = dontCheckPython prev.jupyter-server;
+        geoip = dontCheckPython prev.geoip;
+        django = dontCheckPython prev.django;
+      };
+    };
+    python' = python.withPackages (ps: [
+      ps.jupyter-contrib-nbextensions
+      ps.nbconvert
+    ]);
+  in
+  pkgs.writeShellScriptBin "${prefix}nbconvert" ''
+    ${python'.interpreter} -m nbconvert "''${@}"
+  '';
+
   commands = {
     inherit letsql-upterm-host letsql-upterm-session-current;
     inherit letsql-asciinema-play letsql-asciinema-rec-local;
     inherit letsql-debug-drv;
     inherit letsql-nix-flake-metadata-refresh;
+    inherit letsql-nbconvert;
   };
 
   commands-star = pkgs.buildEnv {

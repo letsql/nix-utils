@@ -1,0 +1,26 @@
+diff --git a/src/jupyter_contrib_nbextensions/nbconvert_support/collapsible_headings.py b/src/jupyter_contrib_nbextensions/nbconvert_support/collapsible_headings.py
+index 7e6bcf5..b9fa3f0 100644
+--- a/src/jupyter_contrib_nbextensions/nbconvert_support/collapsible_headings.py
++++ b/src/jupyter_contrib_nbextensions/nbconvert_support/collapsible_headings.py
+@@ -3,7 +3,7 @@
+ import json
+ import os
+
+-from notebook.services.config import ConfigManager
++from jupyter_server.services.config import ConfigManager
+
+ from jupyter_contrib_nbextensions import __file__ as contrib_init
+
+diff --git a/src/jupyter_contrib_nbextensions/nbconvert_support/execute_time.py b/src/jupyter_contrib_nbextensions/nbconvert_support/execute_time.py
+index 53b920d..e3c5aa0 100644
+--- a/src/jupyter_contrib_nbextensions/nbconvert_support/execute_time.py
++++ b/src/jupyter_contrib_nbextensions/nbconvert_support/execute_time.py
+@@ -8,7 +8,7 @@ from nbconvert.preprocessors.execute import ExecutePreprocessor
+
+ try:
+     # notebook >= 5.0.0-rc1
+-    import notebook._tz as nbtz
++    import jupyter_server._tz as nbtz
+ except ImportError:
+     # notebook < 5.0.0-rc1
+     import notebook.services.contents.tz as nbtz
