@@ -53,8 +53,9 @@ let
     dontCheckPython = drv: drv.overridePythonAttrs (old: { doCheck = false; });
     python = pkgs.python310.override {
       packageOverrides = final: prev: {
-        jupyter-contrib-nbextensions = prev.jupyter-contrib-nbextensions.overrideAttrs overrides."jupyter_contrib_nbextensions-0.7.0.patch";
+        jupyter-contrib-nbextensions = dontCheckPython (prev.jupyter-contrib-nbextensions.overrideAttrs overrides."jupyter_contrib_nbextensions-0.7.0.patch");
         aiohttp = dontCheckPython prev.aiohttp;
+        terminado = dontCheckPython prev.terminado;
         furl = dontCheckPython prev.furl;
         jupyter-server = dontCheckPython prev.jupyter-server;
         geoip = dontCheckPython prev.geoip;
