@@ -50,7 +50,7 @@ let
     utils.mkNixFlakeMetadataRefresh "github:letsql/nix-utils";
 
   letsql-nbconvert = let
-    dontCheckPython = drv: drv.overridePythonAttrs (old: { doCheck = false; });
+    dontCheckPython = drv: drv.overridePythonAttrs (old: { doCheck = false; doInstallCheck = false; });
     python = pkgs.python310.override {
       packageOverrides = final: prev: {
         jupyter-contrib-nbextensions = dontCheckPython (prev.jupyter-contrib-nbextensions.overrideAttrs overrides."jupyter_contrib_nbextensions-0.7.0.patch");
